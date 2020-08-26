@@ -54,11 +54,11 @@ help_info = """ %(cyan)s
     """
 def usage():
     """print usage information"""
-    print help_info % log.STYLE
+    print(help_info % log.STYLE)
 
 def version():
     """print version"""
-    print 'retmux ' + config.VERSION
+    print('retmux ' + config.VERSION)
 
 actions = {
     '-l'  : controller.show_and_action,
@@ -75,7 +75,7 @@ if __name__ == '__main__':
 
     #load config
     if not config.load_config():
-        print "loading config failed"
+        print("loading config failed")
     
     log.setup_log(config.LOG_LVL_CONSOLE, config.LOG_LVL_FILE)
 

@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
-import util
-import cmd
-import tmux_obj
-import log
-import config
+from . import util
+from . import cmd
+from . import tmux_obj
+from . import log
+from . import config
 import datetime,time
 import os,sys
 from os import path 

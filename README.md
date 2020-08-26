@@ -24,8 +24,8 @@ Tmux is very handy tool. However we cannot persist the sessions and reload them 
 **retmux** comes to try to solve this problem. It makes tmux backup and restore easily to be done. You can manage your tmux backups with **retmux** and get your sessions back.
 
 **retmux** was written and tested with:
-- python 2.7.6
-- tmux 1.8
+- python 3.7.5
+- tmux 2.9a
 
 ## Features
 

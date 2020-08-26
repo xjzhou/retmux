@@ -1,11 +1,13 @@
 # -*- coding:utf-8 -*-
-import util
-import backup
-import restore
-import tmux_obj
-import config
+from . import util
+from . import backup
+from . import restore
+from . import tmux_obj
+from . import config
+from . import log
+
 import datetime,time
-import logging, log
+import logging
 import os,sys
 from os import path 
 
@@ -16,7 +18,7 @@ tmux_dict = {}
 
 def list_all_sessions():
     """print a list of all backuped sessions (with short info)"""
-    if not len(tmux_dict.keys()):
+    if not len(list(tmux_dict.keys())):
         #name is empty, show all list(short info)
         l = util.all_backups()
         if not l or len(l) == 0:
@@ -36,18 +38,18 @@ def list_all_sessions():
             tmux_dict[str(i)]=tmux
 
     list_fmt = '%s%2s %s'#fmt for list all, the first %s is the '*' place
-    print util.get_line('=')
+    print(util.get_line('='))
     #header
-    print  list_fmt %(' ', 'No.',tmux_obj.Tmux.short_format%('Name','Sessions','Created on'))
-    print util.get_line('=')
-    keys = tmux_dict.keys()
+    print(list_fmt %(' ', 'No.',tmux_obj.Tmux.short_format%('Name','Sessions','Created on')))
+    print(util.get_line('='))
+    keys = list(tmux_dict.keys())
     keys.sort()
     for idx in keys:
         tmux = tmux_dict[idx]
         latest_flag = '*' if idx == '1' else ' '
-        print list_fmt%(latest_flag, idx, tmux.short_info())
-    print util.get_line('-')
-    print '%72s'%'Latest default backup with (*)'
+        print(list_fmt%(latest_flag, idx, tmux.short_info()))
+    print(util.get_line('-'))
+    print('%72s'%'Latest default backup with (*)')
         
 
 def show_and_action(name=None, action=None):
@@ -64,29 +66,29 @@ def show_and_action(name=None, action=None):
         #interactively show details
         while 1:
             list_all_sessions()
-            idx = raw_input("retmux> Please give backup No. (press q to exit):")
+            idx = input("retmux> Please give backup No. (press q to exit):")
 
             if not idx:
                 log.print_err("Invalid index: (empty)")
             elif idx.lower() == 'q':
                 break
-            elif not tmux_dict.has_key(idx):
+            elif idx not in tmux_dict:
                log.print_err("Invalid index: " + idx)
             else:
                 tmux = tmux_dict[idx]
-                print util.get_line('>')
-                print log.hl('Details of backup:','bold') +'%s'% tmux.tid
-                print util.get_line('>')
-                print '\n'.join(tmux.long_info())
-                print util.get_line('<')
+                print(util.get_line('>'))
+                print(log.hl('Details of backup:','bold') +'%s'% tmux.tid)
+                print(util.get_line('>'))
+                print('\n'.join(tmux.long_info()))
+                print(util.get_line('<'))
                 if action:
                     action(tmux)
     else:
         #till here, the name should be validated, exists
-        print log.hl('Details of backup:','bold') +'%s'% name
-        print util.get_line('=')
+        print(log.hl('Details of backup:','bold') +'%s'% name)
+        print(util.get_line('='))
         tmux = util.get_tmux_by_id(name)
-        print '\n'.join(tmux.long_info()) 
+        print('\n'.join(tmux.long_info())) 
         if action:
             action(tmux)
 
@@ -99,7 +101,7 @@ def do_delete(name=None):
      
 def action_delete(tmux):
     if tmux and  isinstance(tmux, tmux_obj.Tmux):
-        confirm = raw_input("retmux> " + log.hl('Delete','red') + " backup "+tmux.tid+"? [yes|no] ")
+        confirm = input("retmux> " + log.hl('Delete','red') + " backup "+tmux.tid+"? [yes|no] ")
         if confirm.lower() == "yes":
             if util.delete_backup(tmux.tid) == 0:
                 global tmux_dict
@@ -127,7 +129,7 @@ def interactive_restore():
 
 def action_restore(tmux):
     if tmux and  isinstance(tmux, tmux_obj.Tmux):
-        confirm = raw_input("retumx> restore "+tmux.tid+"? [yes|no] ")
+        confirm = input("retumx> restore "+tmux.tid+"? [yes|no] ")
         if confirm.lower() == "yes":
             do_restore(tmux.tid)
             LOG.info('Backup %s was restored' %tmux.tid)
@@ -164,7 +166,7 @@ def tmux_id_4_restore(tmux_id):
             sys.exit(1)
     else:
         tmux_id = util.latest_backup().split('/')[-1]
-        print 'backup name is empty, using last backup:%s'%tmux_id
+        print('backup name is empty, using last backup:%s'%tmux_id)
 
     return tmux_id
 

@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from operator import attrgetter
-import log
+from . import log
 
 LOG = log.get_logger()
 
@@ -23,10 +23,10 @@ class Tmux(object):
         """ longer info of this tmux object"""
         info = []
 
-        backup_fmt = u' Backup─┬─[%s] (%d sessions):'
-        sess_fmt   = u'─Session─┬─[%s] (%d windows):'
-        win_fmt    = u'─Window─┬─(%d) [%s] (%d panes):'
-        pane_fmt   = u'─' + log.hl('Pane','green') +' (%d) %s'
+        backup_fmt = ' Backup─┬─[%s] (%d sessions):'
+        sess_fmt   = '─Session─┬─[%s] (%d windows):'
+        win_fmt    = '─Window─┬─(%d) [%s] (%d panes):'
+        pane_fmt   = '─' + log.hl('Pane','green') +' (%d) %s'
         info.append("%72s" % ('Backup was created on ' + self.create_time))
 
         info.append(backup_fmt %(log.hl(self.tid,'bold'), len(self.sessions)))
@@ -97,11 +97,11 @@ class Pane(object):
         
 
 #constants for the node tree
-PIPE        = u'│'
-NORMAL_NODE = u'├'
-LAST_NODE   = u'└'
+PIPE        = '│'
+NORMAL_NODE = '├'
+LAST_NODE   = '└'
 
-SPACE       = u' '*8
+SPACE       = ' '*8
 
 def tree_struc(text,islast_list,lvl,place_holder=False):
     """

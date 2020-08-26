@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 import subprocess
 import re
-import util
-import log
-import config
+from . import util
+from . import log
+from . import config
 
 LOG = log.get_logger()
 

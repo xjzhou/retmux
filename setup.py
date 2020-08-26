@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import glob
 setup(
     name = 'retmux',
-    version = '1.0.0',
+    version = '1.0.3',
     install_requires=[ ],
     packages = find_packages(),
     package_data={'tmuxbk':['conf/*.conf']},

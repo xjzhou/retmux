@@ -1,13 +1,13 @@
 from os import path 
 import os
 import shutil, sys
-import ConfigParser
-import log
+import configparser
+from . import log
 
 
 VERSION     = '1.0.2'                #software version
 #shell command separator
-CMD_SEP     = u'\x97'
+CMD_SEP     = '\x97'
 #the separator of tmux command output
 SEP         = ':=:'
 PKG_PATH    = path.dirname(__file__)
@@ -30,7 +30,7 @@ def load_config():
         load config from config file 
         return True if sucessful, otherwise False
     """
-    cf = ConfigParser.ConfigParser()
+    cf = configparser.ConfigParser()
     
     # if conf file doesn't exist, cp default conf there
     if not path.exists(CONF_FILE):
@@ -44,12 +44,12 @@ def load_config():
         lvl_console = cf.get('settings','log.level.console')
         CNT_WITH_ESC = cf.getboolean('settings','content.with.escape')
 
-        if lvl_file.lower() not in log.LVL_DICT.keys():
+        if lvl_file.lower() not in list(log.LVL_DICT.keys()):
             log.print_warn("cannot load log.level.file config, use default: %s" % LOG_LVL_FILE)
         else:
             LOG_LVL_FILE = lvl_file
 
-        if lvl_console.lower() not in log.LVL_DICT.keys():
+        if lvl_console.lower() not in list(log.LVL_DICT.keys()):
             log.print_warn("cannot load log.level.console config, use default: %s" %LOG_LVL_CONSOLE)
         else:
             LOG_LVL_CONSOLE = lvl_console

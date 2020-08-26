@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import logging, logging.handlers
 import os
-import config
+from . import config
 
 LVL_DICT={
         'debug' : logging.DEBUG,
@@ -19,26 +19,26 @@ STYLE={
     'red'     : '\033[31;1m', # bold, red
     'warning' : '\033[33;1m', #blink, bold, yellow
     #'cyan'    : '\033[36;1m', #bold, cyan
-    'cyan'    : u'\x1b[36m',
-    'green'   : u'\x1b[32m',
-    'blue'    : u'\x1b[34m', 
-    'purple'  : u'\x1b[35m',
+    'cyan'    : '\x1b[36m',
+    'green'   : '\x1b[32m',
+    'blue'    : '\x1b[34m', 
+    'purple'  : '\x1b[35m',
 }
 
 def hl(text,style_key):
     """highlight the give text"""
     k = style_key.lower()
-    if k not in STYLE.keys():
+    if k not in list(STYLE.keys()):
         return text
     return ('%('+k+')s'+ text + '%(clear)s') % STYLE
 
 def print_err(msg):
     """this is for normal error output before the logger was setup"""
-    print hl('Error: ','error') + msg
+    print(hl('Error: ','error') + msg)
 
 def print_warn(msg):
     """this is for normal warning output before the logger was setup"""
-    print hl('Warning: ','warning') + msg
+    print(hl('Warning: ','warning') + msg)
 
 class TmuxbackFormatter(logging.Formatter):
     """define different format for different log levels"""

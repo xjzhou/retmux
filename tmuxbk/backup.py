@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
-import util
-import cmd
-import tmux_obj
-import log
-import config
+from . import util
+from . import cmd
+from . import tmux_obj
+from . import log
+from . import config
 import os,sys
 from os import path 
 import datetime,time
@@ -37,7 +37,7 @@ def backup_tmux(tmux_id):
 def load_sessions():
     """load sessions information """
     
-    LOG.info('%s ...' % sys._getframe().f_code.co_name)
+    LOG.info('[%s] ...' % sys._getframe().f_code.co_name)
 
     if not cmd.has_tmux_server():
         LOG.info("No tmux session found, nothing to backup")
@@ -67,7 +67,7 @@ def load_sessions():
 
 def load_windows(s_name):
     """load windows for given session name"""
-    LOG.info('%s ...' % sys._getframe().f_code.co_name)
+    LOG.info('[%s] ...' % sys._getframe().f_code.co_name)
 
     output = cmd.get_windows_from_session(s_name)
     wins = []
@@ -89,7 +89,7 @@ def load_panes(s_name,w_id):
     """
     load panes for given session name and window idx
     """
-    LOG.info('%s of window: %s:%d' % (sys._getframe().f_code.co_name, s_name,w_id))
+    LOG.info('[%s] of window: %s:%d' % (sys._getframe().f_code.co_name, s_name,w_id))
     output = cmd.get_panes_from_sess_win(s_name,w_id)
     panes = []
     for s in output:

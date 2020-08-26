@@ -13,6 +13,8 @@ Support for windows larger than the client. This adds two new options,
 CMD_LIST_SESSIONS    = config.CMD_SEP.join(['tmux', 'list-sessions', '-F#S:=:(#{session_width},#{session_height}):=:#{session_attached}'])
 </pre>
 
+- update: supprot for python3
+
 ## 2017-08-02 VERSION 1.0.2
 - fix: hit "lost server" under tmux v2.3+, when cd pane's path
 
