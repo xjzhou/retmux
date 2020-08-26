@@ -11,7 +11,15 @@ LOG = log.get_logger()
 
 ##list sessions
 
-CMD_LIST_SESSIONS    = config.CMD_SEP.join(['tmux', 'list-sessions', '-F#S:=:(#{session_width},#{session_height}):=:#{session_attached}'])
+# https://raw.githubusercontent.com/tmux/tmux/master/CHANGES
+# Support for windows larger than the client. This adds two new options,
+#  window-size and default-size, and a new command, resize-window. The
+#  force-width and force-height options and the session_width and session_height
+#  formats have been removed.
+#  default-size = 318x37
+#CMD_LIST_SESSIONS    = config.CMD_SEP.join(['tmux', 'list-sessions', '-F#S:=:(#{session_width},#{session_height}):=:#{session_attached}'])
+CMD_LIST_SESSIONS    = config.CMD_SEP.join(['tmux', 'list-sessions', '-F#S:=:(318,37):=:#{session_attached}'])
+
 #tmux list-panes -t {session}:{windowIdx}
 CMD_LIST_PANES       = config.CMD_SEP.join(['tmux','list-panes','-t%s:%s', '-F#{pane_index}:=:(#{pane_width},#{pane_height}):=:#{pane_current_path}:=:#{pane_active}'])
 CMD_CREATE_SESSION   = config.CMD_SEP.join(['tmux','new-session', '-d','-s%s','-x%d','-y%d'])
@@ -43,7 +51,14 @@ def get_sessions():
     like: sessName:=:(200,300):=:1
     """
     cmd = CMD_LIST_SESSIONS.split(config.CMD_SEP)
+    print('************************************************************')
+    print(CMD_LIST_SESSIONS)
+    print(cmd)
+    print('************************************************************')
     s = util.exec_cmd(cmd)
+    print('************************************************************')
+    print(s)
+    print('************************************************************')
     return s.split('\n')
 
 def get_windows_from_session(sess_name):

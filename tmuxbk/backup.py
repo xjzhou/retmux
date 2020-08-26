@@ -11,7 +11,8 @@ import datetime,time
 LOG = log.get_logger()
 
 def backup_tmux(tmux_id):
-    """get current tmux information and return Tmux object
+    """
+    get current tmux information and return Tmux object
     """
 
     LOG.info('backing up the current tmux sessions')
@@ -35,18 +36,28 @@ def backup_tmux(tmux_id):
 
 def load_sessions():
     """load sessions information """
-    LOG.debug('Backup tmux sessions...')
+    
+    LOG.info('%s ...' % sys._getframe().f_code.co_name)
 
     if not cmd.has_tmux_server():
         LOG.info("No tmux session found, nothing to backup")
         sys.exit(0)
 
     output = cmd.get_sessions()
+    print('--------------------------------------')
+    print(cmd)
+    print(output)
+    print('--------------------------------------')
+
     sess = []
     for s in output:
         #s is like  sessName:(200,300):1
         s_l = s.split(config.SEP)
         session =tmux_obj.Session(s_l[0]) 
+        print('--------------------------------------')
+        print(s_l)
+        print(s_l[1])
+        print('--------------------------------------')
         session.size = eval(s_l[1])
         session.attached = int(s_l[2])>0
         #load windows
@@ -56,7 +67,8 @@ def load_sessions():
 
 def load_windows(s_name):
     """load windows for given session name"""
-    LOG.debug('Backup windows of session %s'%s_name)
+    LOG.info('%s ...' % sys._getframe().f_code.co_name)
+
     output = cmd.get_windows_from_session(s_name)
     wins = []
     for s in output:
@@ -67,7 +79,7 @@ def load_windows(s_name):
         win.active = int(w_l[2])
         win.layout = w_l[3]
         #load panes
-        win.panes = load_panes(s_name,win.win_id)
+        win.panes = load_panes(s_name, win.win_id)
 
         wins.append(win)
     return wins
@@ -77,7 +89,7 @@ def load_panes(s_name,w_id):
     """
     load panes for given session name and window idx
     """
-    LOG.debug('Backup panes of window: %s:%d'%(s_name,w_id))
+    LOG.info('%s of window: %s:%d' % (sys._getframe().f_code.co_name, s_name,w_id))
     output = cmd.get_panes_from_sess_win(s_name,w_id)
     panes = []
     for s in output:

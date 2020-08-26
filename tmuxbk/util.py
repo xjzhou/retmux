@@ -60,7 +60,6 @@ def delete_backup(tmux_id):
     except:
         return 1
 
-
 def exec_cmd(cmd):
     """execute a shell command
     the cmd argument is a list
@@ -69,6 +68,7 @@ def exec_cmd(cmd):
     if s:
         s = re.sub('\n$','',s)
     return s
+
 def cmd_return_code(cmd):
     """execute a shell command
     the cmd argument is a list
